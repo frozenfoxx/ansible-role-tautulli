@@ -1,24 +1,24 @@
 ---
-- ansible.builtin.name: Ensure build dependencies
+- name: Ensure build dependencies
   ansible.builtin.apt:
     pkg:
       - git
   tags:
     - tautulli
 
-- ansible.builtin.name: Create user and group
+- name: Create user and group
   ansible.builtin.import_tasks: user.yml
   tags:
     - tautulli
 
-- ansible.builtin.name: Clone the repository
+- name: Clone the repository
   ansible.builtin.git:
     repo: 'https://github.com/Tautulli/Tautulli.git'  # noqa: latest
     dest: /opt/Tautulli
   tags:
     - tautulli
 
-- ansible.builtin.name: Ensure directory permissions
+- name: Ensure directory permissions
   ansible.builtin.file:
     path: /opt/Tautulli
     state: directory
@@ -28,7 +28,7 @@
   tags:
     - tautulli
 
-- ansible.builtin.name: Install the service script
+- name: Install the service script
   ansible.builtin.copy:
     src: /opt/Tautulli/init-scripts/init.systemd
     dest: /lib/systemd/system/tautulli.service
@@ -39,9 +39,9 @@
   tags:
     - tautulli
 
-- ansible.builtin.name: Start the service
+- name: Start the service
   ansible.builtin.systemd:
-    ansible.builtin.name: tautulli.service
+    name: tautulli.service
     state: restarted
     daemon_reload: true
   tags:
